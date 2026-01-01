@@ -1,13 +1,13 @@
 package org.example.shopyearb.Controller;
 
+import org.example.shopyearb.DataBase.DBManager;
 import org.example.shopyearb.Entity.Product;
 import jakarta.annotation.PostConstruct;
 import org.example.shopyearb.Entity.User;
 import org.example.shopyearb.Response.BasicResponse;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.example.shopyearb.Utils.Construct;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +16,10 @@ import java.util.List;
 public class Controller {
 
 
-    List<Product> productList = new ArrayList<>();
+    private List<Product> productList = new ArrayList<>();
 
+    @Autowired
+    private DBManager dbManager;
 
 
     @PostConstruct
@@ -41,8 +43,18 @@ public class Controller {
     }
 
     @PostMapping ("/register-user")
-    public BasicResponse register(User user){
-        return new BasicResponse(true,1);
+    public BasicResponse register(@RequestBody User user){
+        boolean successes =  false;
+        Integer errorCode = Construct.ERROR_REGISTER;
+     if (user!=null){
+         User dbUser = this.dbManager.getUserByUsername(user.getName());
+         if (dbUser == null){
+             this.dbManager.insertUser(user);
+             successes = true;
+             errorCode = null;
+         }
+     }
+      return new BasicResponse(successes,errorCode);
     }
 
 }

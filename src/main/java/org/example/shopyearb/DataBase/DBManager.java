@@ -27,13 +27,6 @@ public class DBManager {
         }
     }
 
-
-
-
-
-
-
-
     public void insertUser(User user) {
         String sql = "INSERT INTO users (username, password) VALUES (?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -60,5 +53,21 @@ public class DBManager {
             e.printStackTrace();
         }
         return users;
+    }
+
+
+    public User getUserByUsername(String username){
+        System.out.println(username);
+        User user = null;
+       try(PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE username = ?")){
+           preparedStatement.setString(1,username);
+           ResultSet  resultSet= preparedStatement.executeQuery();
+           if (resultSet.next()){
+               user = new User(resultSet.getString("username"),resultSet.getString("password"));
+           }
+       }catch (SQLException e){
+
+       }
+       return user;
     }
 }
