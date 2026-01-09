@@ -6,7 +6,10 @@ private double price;
 private String name;
 private String color;
 private String url;
-private Category category;
+private int category;
+
+
+public Product(){}
 
     public Product(int id, double price, String name, String color,String url) {
         this.id = id;
@@ -16,7 +19,7 @@ private Category category;
         this.url = url;
     }
 
-    public Product(int id, double price, String name, String color, String url, Category category) {
+    public Product(int id, double price, String name, String color, String url, int category) {
         this.id = id;
         this.price = price;
         this.name = name;
@@ -25,11 +28,11 @@ private Category category;
         this.category = category;
     }
 
-    public Category getCategory() {
+    public int getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(int category) {
         this.category = category;
     }
 

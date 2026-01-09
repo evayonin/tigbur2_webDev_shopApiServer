@@ -131,34 +131,36 @@ public class DBManager {
        return user;
     }
 
-    public boolean getProductByName(String name) {
-        boolean isExist = true;
-        String sql = "SELECT name FROM products WHERE name = ?";
-        try(PreparedStatement ps = this.connection.prepareStatement(sql)){
-            ps.setString(1,name);
-            ResultSet resultSet = ps.executeQuery();
-            if (resultSet.next()){
-                isExist = false;
-            }
-
-        }catch (SQLException e){
+public boolean isProductExist(String name){
+        boolean isExist = false;
+      String sql = "SELECT name FROM products WHERE name= ?";
+      try(PreparedStatement ps = this.connection.prepareStatement(sql)){
+          ps.setString(1,name);
+       ResultSet resultSet = ps.executeQuery();
+       if (resultSet.next()){
+           isExist = true;
+       }
+      }catch (SQLException e){
             e.printStackTrace();
-        }
-        return isExist;
-    }
+      }
+      return isExist;
+}
 
-    public void addProduct(Product product) {
-        String sql = "INSERT INTO products (name,color,price,url,category_id) VALUE(?, ?, ?, ?, ?)";
-        try(PreparedStatement ps = connection.prepareStatement(sql)){
+public boolean addProduct(Product product){
+        boolean successes = true;
+        String sql = "INSERT INTO products(name, price,color,url,category_id) VALUES(?, ?, ?, ?, ?) ";
+        try(PreparedStatement ps  = this.connection.prepareStatement(sql)){
             ps.setString(1,product.getName());
-            ps.setString(2,product.getColor());
-            ps.setInt(3,(int)product.getPrice());
-            ps.setString(4,product.getUrl());
-            ps.setInt(5,product.getCategory().getId());
+            ps.setInt(2,(int) product.getPrice());
+            ps.setString(3, product.getColor());
+            ps.setString(4, product.getUrl());
+            ps.setInt(5,product.getCategory());
             ps.executeUpdate();
 
         }catch (SQLException e){
-            e.printStackTrace();
+            successes = false;
         }
-    }
+        return successes;
+}
+
 }

@@ -30,22 +30,21 @@ public class Controller {
       return this.dbManager.getProductsByCategoryId(categoryId);
     }
 
-    @PostMapping("/add-product")
-    public BasicResponse addProduct(@RequestBody Product product){
-         boolean successes = false;
-         Integer errorCode = Constant.ERROR_ADD_PRODUCT;
-        if (product!=null){
-            if (product.getName()!=null){
-                if (!this.dbManager.getProductByName(product.getName())){
-                    this.dbManager.addProduct(product);
+  @PostMapping("/add-product")
+  public BasicResponse addProduct(@RequestBody Product product){
+      boolean successes = false;
+      Integer errorCode = Constant.ERROR_ADD_PRODUCT;
+
+      if (product!=null && product.getName()!=null && !product.getName().isEmpty()){
+            if (!this.dbManager.isProductExist(product.getName())){
+                if (this.dbManager.addProduct(product)){
                     successes = true;
                     errorCode = null;
                 }
-
             }
         }
         return new BasicResponse(successes,errorCode);
-    }
+  }
 
 
 
