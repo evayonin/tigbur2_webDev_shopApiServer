@@ -31,19 +31,20 @@ public class Controller {
     }
 
   @PostMapping("/add-product")
-  public BasicResponse addProduct(@RequestBody Product product){
+  public BasicResponse addProduct(@RequestBody Product product){ // שולח פרודאקט לפי בנאי דפולטיבי אם או לפני בנאי שבגדרנו ואז חייב בבקשה לצרך את כל השדות שבאותו בנאי
+        // כששולחים בקשת פוסט זה מתחלק לחלק של הדר ובאדי - והפרודאקט שהשרת יקבל יהיה בחלק של הבאדי הבקשה ולכן שמים אנוטציה ריקווסט באדי. ככה אנחנו מכריחים אותו לקבל את הפרודאקט כבאדי.
       boolean successes = false;
       Integer errorCode = Constant.ERROR_ADD_PRODUCT;
 
-      if (product!=null && product.getName()!=null && !product.getName().isEmpty()){
-            if (!this.dbManager.isProductExist(product.getName())){
-                if (this.dbManager.addProduct(product)){
+      if (product!=null && product.getName()!=null && !product.getName().isEmpty()){ // חייב את התנאי האמצעי לפני האחרון כדי שהתכנית לא תקרוס - כי אם הפרודאקט לא נאל אבל השם שלו כן נאל ורוצים לבדוק אם השם ריק (תנאי שלישי כלומר אם שווה ל: "") - יקרוס לו לא הוקצאה לשם בכלל כתובת בזיכרון כי הוא נאל
+            if (!this.dbManager.isProductExist(product.getName())){ // בדיקה לפי שם המוצר אם המותר כבר קיים. אם לא אז נכניס את המוצר לדאטה בייס
+                if (this.dbManager.addProduct(product)){ // אם ההכנסה הצליחה (חזר טרו) אז יחזיר ריספונס true וארור קוד נאל (אחרת ההכנסה לא הצליחה וזה אומר שהמוצר כבר קיים - לפי הבדיקה במתודה שבאטה בייס)
                     successes = true;
                     errorCode = null;
                 }
             }
         }
-        return new BasicResponse(successes,errorCode);
+        return new BasicResponse(successes,errorCode); // תאורתית אפשר גם היה לעשות שיחזיר את הבאדי (הג׳ייסון) של מה שחזר כדי לראות מה הבעיה אבל יותר נוח ככה לדעת אביה אבל תכלס צריך לבחור לפי מה שיהיה נוח ללקוח ז״א מה שיהיה לו מובן
   }
 
 

@@ -9,7 +9,7 @@ private String url;
 private int category;
 
 
-public Product(){}
+public Product(){} // בנאי דפולטיבי בשביל הבקשה של add-product כאשר לא שולחים את השדה id של האובייקט פרודאקט (ששולחים במתודה הנתיב בקונטרולר)
 
     public Product(int id, double price, String name, String color,String url) {
         this.id = id;

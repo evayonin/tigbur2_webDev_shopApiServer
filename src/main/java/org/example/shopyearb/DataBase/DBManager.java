@@ -131,7 +131,7 @@ public class DBManager {
        return user;
     }
 
-public boolean isProductExist(String name){
+public boolean isProductExist(String name){ // בדיקה לפי השם של המוצר. משתמשים במתודה ב add-product
         boolean isExist = false;
       String sql = "SELECT name FROM products WHERE name= ?";
       try(PreparedStatement ps = this.connection.prepareStatement(sql)){
@@ -158,7 +158,7 @@ public boolean addProduct(Product product){
             ps.executeUpdate();
 
         }catch (SQLException e){
-            successes = false;
+            successes = false; // אם משהו השתבש - לא הצלחנו להכניס אז יחזור פולס
         }
         return successes;
 }
