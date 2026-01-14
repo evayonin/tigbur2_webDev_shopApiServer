@@ -6,7 +6,7 @@ private double price;
 private String name;
 private String color;
 private String url;
-private int category;
+private int category; // שינינו מאובייקט קטגורי לאינט כדי שהמתודה ב db manager תבדוק אם המוצר קיים לפי ה category id וכדי שישמור את המוצר בדאטה בייס לפי מספר הקטגוריה
 
 
 public Product(){} // בנאי דפולטיבי בשביל הבקשה של add-product כאשר לא שולחים את השדה id של האובייקט פרודאקט (ששולחים במתודה הנתיב בקונטרולר)

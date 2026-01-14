@@ -154,7 +154,7 @@ public boolean addProduct(Product product){
             ps.setInt(2,(int) product.getPrice());
             ps.setString(3, product.getColor());
             ps.setString(4, product.getUrl());
-            ps.setInt(5,product.getCategory());
+            ps.setInt(5,product.getCategory()); // שינינו בגטר שיחזור מספר הקטגוריה ולא אובייקט קטגוריה - כדי לדעת לאיזה מספר קטגוריה המוצר יהיה שייך בדאטה בייס
             ps.executeUpdate();
 
         }catch (SQLException e){
